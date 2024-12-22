@@ -13,11 +13,14 @@ RUN npm install
 # Copy the application code
 COPY . .
 
+# Generate Prisma client
+RUN npx prisma generate
+
 # Build the application
 RUN npm run build
 
 # Expose the application port
 EXPOSE 3000
 
-# Start the service
-CMD ["npm", "run", "start:prod"]
+# Run migrations and start the service
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start:prod"]
