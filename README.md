@@ -21,3 +21,12 @@ What is done:
 The /api prefix was added because it is said that "basePath: '/api'" in the task description. Probably, this is a misunderstanding, but whatever.
 
 I've added envs with no sensitive data, but you have to add an SMPT email and password for the email service to actually work. I will provide you my credentials for the newly created email in DM, as I trust you, but they won't be saved in the repo.
+
+In order to test this you need to do these steps:
+
+1. Clone this repository to your machine.
+2. Add SMTP credentials to the /service_app/.env.docker:
+  SMTP_EMAIL=""
+  SMTP_PASSWORD=""
+3. Run docker-compose up --build (you have to install Docker)
+
