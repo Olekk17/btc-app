@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  service_app:
+    build:
+      context: ./service_app
+    container_name: service_app
+    depends_on:
+      - database
+    env_file:
+      - ./service_app/.env.docker
+    ports:
+      - "3000:3000"
+
+  worker_app:
+    build:
+      context: ./worker_app
+    container_name: worker_app
+    depends_on:
+      - database
+      - service_app
+    env_file:
+      - ./worker_app/.env.docker
+
+volumes:
+  postgres_data:
