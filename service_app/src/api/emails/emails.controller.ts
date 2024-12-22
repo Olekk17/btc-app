@@ -8,16 +8,12 @@ import {
   Get,
 } from '@nestjs/common';
 import { EmailsService } from './emails.service';
-import { Email } from '@prisma/client';
-
 @Controller('api/emails')
 export class EmailsController {
   constructor(private readonly subscriptionService: EmailsService) {}
 
   @Post()
-  async addEmailToSubscribed(
-    @Body() payload: { email: string },
-  ): Promise<Email> {
+  async addEmailToSubscribed(@Body() payload: { email: string }) {
     try {
       const response = await this.subscriptionService.addEmailToSubscribed(
         payload.email,
@@ -40,7 +36,7 @@ export class EmailsController {
   }
 
   @Delete()
-  async deleteEmail(@Body() payload: { email: string }): Promise<Email> {
+  async deleteEmail(@Body() payload: { email: string }) {
     try {
       const response = await this.subscriptionService.deleteEmail(
         payload.email,
@@ -52,7 +48,7 @@ export class EmailsController {
   }
 
   @Get()
-  async getEmails(): Promise<Email[]> {
+  async getEmails() {
     try {
       const response = await this.subscriptionService.getEmails();
       return response;

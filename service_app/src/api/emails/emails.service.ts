@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { prisma } from '../../../prisma/client';
-import { Email } from '@prisma/client';
 import { Status } from 'src/types';
 import * as client from 'prom-client'; // Import Prometheus client
 
@@ -16,7 +15,7 @@ export class EmailsService {
     help: 'Total number of email unsubscriptions',
   });
 
-  async addEmailToSubscribed(email: string): Promise<Email | null> {
+  async addEmailToSubscribed(email: string) {
     const response = await prisma.email.create({
       data: {
         email,
@@ -29,11 +28,11 @@ export class EmailsService {
     return response;
   }
 
-  getEmails(): Promise<Email[]> {
+  getEmails() {
     return prisma.email.findMany({});
   }
 
-  async deleteEmail(email: string): Promise<Email> {
+  async deleteEmail(email: string) {
     const response = await prisma.email.update({
       where: { email, status: Status.subscribed },
       data: { status: Status.unsubscribed, deletedAt: new Date() },
